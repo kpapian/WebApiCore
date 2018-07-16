@@ -5,11 +5,10 @@ using WebApiCore.BL.Models;
 
 namespace WebApiCore.Service.Controllers
 {
-
     /// <summary>
     /// Class for working with users and users data end points
     /// </summary>
-    [Route("api/users")]
+    [Route("api/[controller]")]
     public class UsersController : ControllerBase
     {
         /// <summary>

@@ -3,14 +3,11 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace WebApiCore.Service
 {
-    using System;
-
-    using WebApiCore.BL.Services;
-
     public class Program
     {
         public static void Main(string[] args)
         {
+            //create web application host
             BuildWebHost(args).Run();
         }
 

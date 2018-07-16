@@ -9,6 +9,9 @@ namespace WebApiCore.Dal.DataContext
     /// </summary>
     public class UserContext : DbContext
     {
+        /// <summary>
+        /// Initialize a new instance of the UserContext type.
+        /// </summary>
         public UserContext()
         {
         }
@@ -31,7 +34,6 @@ namespace WebApiCore.Dal.DataContext
         /// Gets or sets UserData entities stored in the database
         /// </summary>
         public DbSet<UserData> UserData { get; set; }
-
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
