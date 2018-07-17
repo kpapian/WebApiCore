@@ -16,6 +16,10 @@ namespace WebApiCore.Dal.DataContext
         {
         }
 
+        /// <summary>
+        /// Initialize a new instance of the UserContext type.
+        /// </summary>
+        /// <param name="options">DbContextOptions UserContext type param</param>
         public UserContext(DbContextOptions<UserContext> options) : base(options)
         {
         }
@@ -37,37 +41,40 @@ namespace WebApiCore.Dal.DataContext
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=(localdb)\v11.0;Database=EFCore.Users;Trusted_Connection=True;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            Role userRole = new Role { Type = "user" };
-            Role adminRole = new Role { Type = "admin" };
+            #region DataForSeeding
 
-            List<Role> userRoleList = new List<Role>();
+            //Role userRole = new Role { Type = "user" };
+            //Role adminRole = new Role { Type = "admin" };
 
-            userRoleList.Add(userRole);
-            userRoleList.Add(adminRole);
+            //List<Role> userRoleList = new List<Role>();
+
+            //userRoleList.Add(userRole);
+            //userRoleList.Add(adminRole);
 
 
-            modelBuilder.Entity<Role>().HasData(
-                new Role { Id = 1, Type = "user" },
-                new Role { Id = 2, Type = "admin" });
+            //modelBuilder.Entity<Role>().HasData(
+            //    new Role { Id = 1, Type = "user" },
+            //    new Role { Id = 2, Type = "admin" });
 
-            modelBuilder.Entity<User>().HasData(
-                new User { Id = 1, Name = "Anna", RoleId = 1 },
-                new User { Id = 2, Name = "Petr", RoleId = 2 },
-                new User { Id = 3, Name = "Ira", RoleId = 1 },
-                new User { Id = 4, Name = "Oleg", RoleId = 1 },
-                new User { Id = 5, Name = "Karina", RoleId = 1 });
+            //modelBuilder.Entity<User>().HasData(
+            //    new User { Id = 1, Name = "Anna", RoleId = 1 },
+            //    new User { Id = 2, Name = "Petr", RoleId = 2 },
+            //    new User { Id = 3, Name = "Ira", RoleId = 1 },
+            //    new User { Id = 4, Name = "Oleg", RoleId = 1 },
+            //    new User { Id = 5, Name = "Karina", RoleId = 1 });
 
-            modelBuilder.Entity<UserData>().HasData(
-                new UserData { Id = 1, UserText = "My name is Anna. My role is user.", UserId = 1 },
-                new UserData { Id = 2, UserText = "My name is Petr. My role is admin.", UserId = 2 },
-                new UserData { Id = 3, UserText = "My name is Ira. My role is user.", UserId = 3 },
-                new UserData { Id = 4, UserText = "My name is Oleg. My role is user.", UserId = 4 },
-                new UserData { Id = 5, UserText = "My name is Karina. My role is user.", UserId = 5 });
+            //modelBuilder.Entity<UserData>().HasData(
+            //    new UserData { Id = 1, UserText = "My name is Anna. My role is user.", UserId = 1 },
+            //    new UserData { Id = 2, UserText = "My name is Petr. My role is admin.", UserId = 2 },
+            //    new UserData { Id = 3, UserText = "My name is Ira. My role is user.", UserId = 3 },
+            //    new UserData { Id = 4, UserText = "My name is Oleg. My role is user.", UserId = 4 },
+            //    new UserData { Id = 5, UserText = "My name is Karina. My role is user.", UserId = 5 });
+
+            #endregion
         }
     }
 }

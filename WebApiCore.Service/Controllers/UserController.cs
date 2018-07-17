@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using WebApiCore.BL.Services;
 using WebApiCore.BL.Models;
+using WebApiCore.BL.IServices;
 
 namespace WebApiCore.Service.Controllers
 {
@@ -12,18 +12,26 @@ namespace WebApiCore.Service.Controllers
     public class UsersController : ControllerBase
     {
         /// <summary>
+        /// Initialize a new instance of the UsersController 
+        /// </summary>
+        /// <param name="userService">IUserService type param</param>
+        public UsersController(IUserService userService)
+        {
+            this._userService = userService;
+        }
+
+        /// <summary>
         /// Instance of UserService class
         /// </summary>
-        private UserService userService = new UserService();
+        private readonly IUserService _userService;
 
         /// <summary>
         /// Gets list of existing users and their info
         /// </summary>
         /// <returns>Task of IHttpActionResult type</returns>
-        //[BasicAuthorization("admin", "user")]
         public async Task<IActionResult> GetUserInfoList()
         {
-            var userList = await this.userService.GetUsersData();
+            var userList = await this._userService.GetUsersData();
 
             if (userList == null)
             {
@@ -46,7 +54,7 @@ namespace WebApiCore.Service.Controllers
                 return this.BadRequest();
             }
 
-            var user = await this.userService.GetUserByUserName(userName);
+            var user = await this._userService.GetUserByUserName(userName);
 
             if (user == null)
             {
@@ -69,7 +77,7 @@ namespace WebApiCore.Service.Controllers
                 return this.BadRequest();
             }
 
-            await this.userService.AddUserData(userDataDto);
+            await this._userService.AddUserData(userDataDto);
 
             return this.Ok();
         }
@@ -87,7 +95,7 @@ namespace WebApiCore.Service.Controllers
                 return this.BadRequest();
             }
 
-            await this.userService.UpdateUserDataByUserId(userData);
+            await this._userService.UpdateUserDataByUserId(userData);
 
             return this.Ok();
         }
@@ -105,7 +113,7 @@ namespace WebApiCore.Service.Controllers
                 return this.BadRequest();
             }
 
-            await this.userService.DeleteUserDataByUserId(userId);
+            await this._userService.DeleteUserDataByUserId(userId);
 
             return this.Ok();
         }
