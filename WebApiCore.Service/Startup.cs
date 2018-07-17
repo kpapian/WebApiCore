@@ -1,39 +1,43 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
+using WebApiCore.BL.Extension;
 using WebApiCore.Dal.DataContext;
 
 namespace WebApiCore.Service
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        #region Public
+
+        public Startup( IConfiguration configuration )
         {
-            Configuration = configuration;
+            this.Configuration = configuration;
+        }
+
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure( IApplicationBuilder app, IHostingEnvironment env )
+        {
+            if ( env.IsDevelopment( ) )
+            {
+                app.UseDeveloperExceptionPage( );
+            }
+
+            app.UseMvc( );
+        }
+
+        // This method gets called by the runtime. Use this method to add services to the container.
+        public void ConfigureServices( IServiceCollection services )
+        {
+            services.AddMvc( );
+
+            services.AddBLServices( this.Configuration );
         }
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddMvc();
-
-            services.AddDbContext<UserContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("DBConnection")));
-        }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-        {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
-            app.UseMvc();
-        }
+        #endregion
     }
 }

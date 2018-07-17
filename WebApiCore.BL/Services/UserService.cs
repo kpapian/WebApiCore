@@ -12,12 +12,16 @@ namespace WebApiCore.BL.Services
     /// <summary>
     /// Contains information of basic CRUD operations with User and UserData entities
     /// </summary>
-    public class UserService
+    internal sealed class UserService : IUserService
     {
         /// <summary>
         /// Instance of UserContext for manipulation with DataBase
         /// </summary>
-        private UserContext db = new UserContext();
+        private readonly UserContext db;
+        public UserService( UserContext db )
+        {
+            this.db = db;
+        }
 
         /// <summary>
         /// Gets collection of UserDto

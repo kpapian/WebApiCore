@@ -12,10 +12,14 @@ namespace WebApiCore.Service.Controllers
     [Route("api/users")]
     public class UsersController : ControllerBase
     {
+        public UsersController( IUserService userService )
+        {
+            this._userService = userService;
+        }
         /// <summary>
         /// Instance of UserService class
         /// </summary>
-        private UserService userService = new UserService();
+        private readonly IUserService _userService;
 
         /// <summary>
         /// Gets list of existing users and their info
@@ -24,7 +28,7 @@ namespace WebApiCore.Service.Controllers
         //[BasicAuthorization("admin", "user")]
         public async Task<IActionResult> GetUserInfoList()
         {
-            var userList = await this.userService.GetUsersData();
+            var userList = await this._userService.GetUsersData();
 
             if (userList == null)
             {
@@ -47,7 +51,7 @@ namespace WebApiCore.Service.Controllers
                 return this.BadRequest();
             }
 
-            var user = await this.userService.GetUserByUserName(userName);
+            var user = await this._userService.GetUserByUserName(userName);
 
             if (user == null)
             {
@@ -70,7 +74,7 @@ namespace WebApiCore.Service.Controllers
                 return this.BadRequest();
             }
 
-            await this.userService.AddUserData(userDataDto);
+            await this._userService.AddUserData(userDataDto);
 
             return this.Ok();
         }
@@ -88,7 +92,7 @@ namespace WebApiCore.Service.Controllers
                 return this.BadRequest();
             }
 
-            await this.userService.UpdateUserDataByUserId(userData);
+            await this._userService.UpdateUserDataByUserId(userData);
 
             return this.Ok();
         }
@@ -106,7 +110,7 @@ namespace WebApiCore.Service.Controllers
                 return this.BadRequest();
             }
 
-            await this.userService.DeleteUserDataByUserId(userId);
+            await this._userService.DeleteUserDataByUserId(userId);
 
             return this.Ok();
         }
