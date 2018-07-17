@@ -72,9 +72,9 @@ namespace WebApiCore.Service.Controllers
         [HttpPost]
         public async Task<IActionResult> PostUserInfo([FromBody] UserDataDto userDataDto)
         {
-            if (userDataDto == null)
+            if (userDataDto == null || !this.ModelState.IsValid)
             {
-                return this.BadRequest();
+                return this.BadRequest(this.ModelState);
             }
 
             await this._userService.AddUserData(userDataDto);
@@ -90,9 +90,9 @@ namespace WebApiCore.Service.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateUserInfoByUserId([FromBody] UserDataDto userData)
         {
-            if (userData == null)
+            if (userData == null || !this.ModelState.IsValid)
             {
-                return this.BadRequest();
+                return this.BadRequest(this.ModelState);
             }
 
             await this._userService.UpdateUserDataByUserId(userData);

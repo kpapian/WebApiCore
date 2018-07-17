@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using FluentValidation.Attributes;
+using WebApiCore.BL.Validators;
 
 namespace WebApiCore.BL.Models
 {
     /// <summary>
     /// Contains information of UserData Dto
     /// </summary>
+    [Validator(typeof(UserDataDtoValidator))]
     public class UserDataDto
     {
         /// <summary>

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WebApiCore.BL.Extentions;
+using FluentValidation.AspNetCore;
 
 namespace WebApiCore.Service
 {
@@ -27,9 +28,12 @@ namespace WebApiCore.Service
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvc()
+                    .AddFluentValidation();
 
             services.AddBLServices(this.Configuration);
+
+            
         }
 
         public IConfiguration Configuration { get; }

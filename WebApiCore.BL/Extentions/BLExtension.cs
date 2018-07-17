@@ -3,6 +3,9 @@ using Microsoft.Extensions.DependencyInjection;
 using WebApiCore.BL.Services;
 using WebApiCore.Dal.Extension;
 using WebApiCore.BL.IServices;
+using FluentValidation;
+using WebApiCore.BL.Models;
+using WebApiCore.BL.Validators;
 
 namespace WebApiCore.BL.Extentions
 {
@@ -12,6 +15,7 @@ namespace WebApiCore.BL.Extentions
         {
             services.AddScoped<IUserService, UserService>();
             services.AddDalServices(configuration);
+            services.AddScoped<IValidator<UserDataDto>, UserDataDtoValidator>();
         }
     }
 }
