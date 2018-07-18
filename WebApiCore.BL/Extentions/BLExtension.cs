@@ -6,6 +6,7 @@ using WebApiCore.BL.IServices;
 using FluentValidation;
 using WebApiCore.BL.Models;
 using WebApiCore.BL.Validators;
+using AutoMapper;
 
 namespace WebApiCore.BL.Extentions
 {
@@ -16,6 +17,7 @@ namespace WebApiCore.BL.Extentions
             services.AddScoped<IUserService, UserService>();
             services.AddDalServices(configuration);
             services.AddScoped<IValidator<UserDataDto>, UserDataDtoValidator>();
+            services.AddAutoMapper();
         }
     }
 }

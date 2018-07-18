@@ -10,6 +10,12 @@ using WebApiCore.BL.IServices;
 
 namespace WebApiCore.BL.Services
 {
+    using System.Runtime.CompilerServices;
+
+    using AutoMapper;
+
+    using WebApiCore.BL.Automapper;
+
     /// <summary>
     /// Contains information of basic CRUD operations with User and UserData entities
     /// </summary>
@@ -21,12 +27,18 @@ namespace WebApiCore.BL.Services
         private readonly UserContext db;
 
         /// <summary>
+        /// Instance of IMapper
+        /// </summary>
+        private readonly IMapper autoMapper;
+
+        /// <summary>
         /// Initialize a nw instance of UserService
         /// </summary>
         /// <param name="db"> UserContext type param </param>
-        public UserService( UserContext db )
+        public UserService(UserContext db, IMapper mapper)
         {
             this.db = db;
+            this.autoMapper = mapper;
         }
 
         /// <summary>
@@ -40,7 +52,7 @@ namespace WebApiCore.BL.Services
                                   .Include(user => user.Role)
                                   .ToArrayAsync();
 
-            var userDtoList = userList.Select(user => user.ToUserDto());
+            var userDtoList = userList.Select(user => this.autoMapper.Map<UserDto>(user));
 
             return userDtoList;
         }
@@ -57,7 +69,9 @@ namespace WebApiCore.BL.Services
                                   .Include(u => u.Role)
                                   .FirstOrDefaultAsync(u => u.Name == userName);
 
-            return user?.ToUserDto();
+            var userDto = this.autoMapper.Map<UserDto>(user);
+
+            return userDto;
         }
 
         /// <summary>
@@ -67,12 +81,9 @@ namespace WebApiCore.BL.Services
         /// <returns>Returns task</returns>
         public async Task AddUserData(UserDataDto userDataDto)
         {
-            if (userDataDto != null)
-            {
-                this.db.UserData.Add(userDataDto.ToUserData());
+            this.db.UserData.Add(this.autoMapper.Map<UserData>(userDataDto));
 
-                await this.db.SaveChangesAsync();
-            }
+            await this.db.SaveChangesAsync();
         }
 
         /// <summary>

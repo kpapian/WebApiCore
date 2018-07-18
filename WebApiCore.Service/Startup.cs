@@ -32,8 +32,6 @@ namespace WebApiCore.Service
                     .AddFluentValidation();
 
             services.AddBLServices(this.Configuration);
-
-            
         }
 
         public IConfiguration Configuration { get; }
