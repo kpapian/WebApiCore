@@ -24,14 +24,14 @@ namespace WebApiCore.BL.IServices
         /// </summary>
         /// <param name="userDataDto">UserDataDto model</param>
         /// <returns>Returns task</returns>
-        Task AddUserData(UserDataDto userDataDto);
+        Task<UserDataDto> AddUserData(UserDataDto userDataDto);
 
         /// <summary>
         /// Update existing row/rows by UserId
         /// </summary>
         /// <param name="userData">UserDataDto model with needed userId</param>
         /// <returns>Returns task</returns>
-        Task UpdateUserDataByUserId(UserDataDto userData);
+        Task<IEnumerable<UserDataDto>> UpdateUserDataByUserId(UserDataDto userData);
 
         /// <summary>
         /// Delete existing row from USerData table by userId

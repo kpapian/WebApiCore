@@ -2,19 +2,14 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using WebApiCore.BL.Mappers;
 using WebApiCore.BL.Models;
 using WebApiCore.Dal.DataContext;
 using WebApiCore.Dal.DataModel;
 using WebApiCore.BL.IServices;
+using AutoMapper;
 
 namespace WebApiCore.BL.Services
 {
-    using System.Runtime.CompilerServices;
-
-    using AutoMapper;
-
-    using WebApiCore.BL.Automapper;
 
     /// <summary>
     /// Contains information of basic CRUD operations with User and UserData entities
@@ -79,11 +74,17 @@ namespace WebApiCore.BL.Services
         /// </summary>
         /// <param name="userDataDto">UserDataDto model</param>
         /// <returns>Returns task</returns>
-        public async Task AddUserData(UserDataDto userDataDto)
+        public async Task<UserDataDto> AddUserData(UserDataDto userDataDto)
         {
             this.db.UserData.Add(this.autoMapper.Map<UserData>(userDataDto));
 
             await this.db.SaveChangesAsync();
+
+            var addedUserData = this.db.UserData
+                                    .Include(user => user.User)
+                                    .Where(userData => userData.UserText.Equals(userDataDto.UserText)).FirstOrDefault();
+
+            return this.autoMapper.Map<UserDataDto>(addedUserData);
         }
 
         /// <summary>
@@ -91,7 +92,7 @@ namespace WebApiCore.BL.Services
         /// </summary>
         /// <param name="userData">UserDataDto model with needed userId</param>
         /// <returns>Returns task</returns>
-        public async Task UpdateUserDataByUserId(UserDataDto userData)
+        public async Task<IEnumerable<UserDataDto>> UpdateUserDataByUserId(UserDataDto userData)
         {
             IEnumerable<UserData> userDataList = new List<UserData>();
 
@@ -108,6 +109,15 @@ namespace WebApiCore.BL.Services
             }
 
             await this.db.SaveChangesAsync();
+
+            ICollection<UserDataDto> updatedUserDataList = new List<UserDataDto>();
+
+            foreach (var row in userDataList)
+            {
+                updatedUserDataList.Add(this.autoMapper.Map<UserDataDto>(row));
+            }
+
+            return updatedUserDataList;
         }
 
         /// <summary>

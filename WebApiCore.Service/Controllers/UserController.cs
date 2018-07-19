@@ -77,9 +77,9 @@ namespace WebApiCore.Service.Controllers
                 return this.BadRequest(this.ModelState);
             }
 
-            await this._userService.AddUserData(userDataDto);
+            var addedUserData = await this._userService.AddUserData(userDataDto);
 
-            return this.Ok();
+            return this.Ok(addedUserData);
         }
 
         /// <summary>
@@ -95,9 +95,9 @@ namespace WebApiCore.Service.Controllers
                 return this.BadRequest(this.ModelState);
             }
 
-            await this._userService.UpdateUserDataByUserId(userData);
+            var updatedTextData = await this._userService.UpdateUserDataByUserId(userData);
 
-            return this.Ok();
+            return this.Ok(updatedTextData);
         }
 
         /// <summary>
